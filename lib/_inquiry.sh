@@ -11,7 +11,7 @@ get_mysql_root_password() {
 get_link_git() {
   
   print_banner
-  printf "${WHITE} 💻 Insira o link do GITHUB do seu ChatPlus que deseja instalar:${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Insira o link do GITHUB do seu SysZap que deseja instalar:${GRAY_LIGHT}"
   printf "\n\n"
   read -p "> " link_git
 }
@@ -201,14 +201,14 @@ software_dominio() {
 inquiry_options() {
   
   print_banner
-  printf "${WHITE} 💻 Bem vindo(a) ao Gerenciador ChatPlus, Selecione abaixo a proxima ação!${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Bem vindo(a) ao Gerenciador SysZap, Selecione abaixo a proxima ação!${GRAY_LIGHT}"
   printf "\n\n"
-  printf "   [0] Instalar ChatPlus\n"
-  printf "   [1] Atualizar ChatPlus\n"
-  printf "   [2] Deletar ChatPlus\n"
-  printf "   [3] Bloquear ChatPlus\n"
-  printf "   [4] Desbloquear ChatPlus\n"
-  printf "   [5] Alter. dominio ChatPlus\n"
+  printf "   [0] Instalar SysZap\n"
+  printf "   [1] Atualizar SysZap\n"
+  printf "   [2] Deletar SysZap\n"
+  printf "   [3] Bloquear SysZap\n"
+  printf "   [4] Desbloquear SysZap\n"
+  printf "   [5] Alter. dominio SysZap\n"
   printf "\n"
   read -p "> " option
 
@@ -240,5 +240,3 @@ inquiry_options() {
     *) exit ;;
   esac
 }
-
-
