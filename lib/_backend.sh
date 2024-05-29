@@ -58,7 +58,7 @@ sudo su - deploy << EOF
 NODE_ENV=
 BACKEND_URL=${backend_url}
 FRONTEND_URL=${frontend_url}
-PROXY_PORT=443
+PROXY_PORT=8443
 PORT=${backend_port}
 
 DB_HOST=localhost
@@ -236,7 +236,26 @@ backend_nginx_setup() {
 sudo su - root << EOF
 cat > /etc/nginx/sites-available/${instancia_add}-backend << 'END'
 server {
+  listen 8080;
   server_name $backend_hostname;
+  location / {
+    proxy_pass http://127.0.0.1:${backend_port};
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade \$http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host \$host;
+    proxy_set_header X-Real-IP \$remote_addr;
+    proxy_set_header X-Forwarded-Proto \$scheme;
+    proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+    proxy_cache_bypass \$http_upgrade;
+  }
+}
+
+server {
+  listen 8443 ssl;
+  server_name $backend_hostname;
+  ssl_certificate /etc/nginx/ssl/nginx.crt;
+  ssl_certificate_key /etc/nginx/ssl/nginx.key;
   location / {
     proxy_pass http://127.0.0.1:${backend_port};
     proxy_http_version 1.1;
