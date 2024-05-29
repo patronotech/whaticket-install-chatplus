@@ -93,7 +93,7 @@ REACT_APP_BACKEND_URL=${backend_url}
 REACT_APP_ENV_TOKEN = 210897ugn217204u98u8jfo2983u5
 REACT_APP_HOURS_CLOSE_TICKETS_AUTO = 9999999
 REACT_APP_FACEBOOK_APP_ID= 1005318707427295
-REACT_APP_NAME_SYSTEM = "Automatiza AI"
+REACT_APP_NAME_SYSTEM = "SysZap"
 REACT_APP_VERSION="1.0.0"
 REACT_APP_PRIMARY_COLOR=#0b5394
 REACT_APP_PRIMARY_DARK="#2c3145"
@@ -169,8 +169,27 @@ sudo su - root << EOF
 
 cat > /etc/nginx/sites-available/${instancia_add}-frontend << 'END'
 server {
+  listen 8080;
   server_name $frontend_hostname;
 
+  location / {
+    proxy_pass http://127.0.0.1:${frontend_port};
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade \$http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host \$host;
+    proxy_set_header X-Real-IP \$remote_addr;
+    proxy_set_header X-Forwarded-Proto \$scheme;
+    proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+    proxy_cache_bypass \$http_upgrade;
+  }
+}
+
+server {
+  listen 8443 ssl;
+  server_name $frontend_hostname;
+  ssl_certificate /etc/nginx/ssl/nginx.crt;
+  ssl_certificate_key /etc/nginx/ssl/nginx.key;
   location / {
     proxy_pass http://127.0.0.1:${frontend_port};
     proxy_http_version 1.1;
